@@ -4,5 +4,8 @@
     <string name="app_name">Sunshine</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="todays_date">Today, July 26</string>
+    <string name="high_temp">21 \u00b0 </string>
+    <string name="low_temp">8 \u00b0 </string>
+    <string name="cloudy">Cloudy </string>
 </resources>
