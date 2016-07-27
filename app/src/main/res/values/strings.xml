@@ -8,4 +8,5 @@
     <string name="high_temp">21 \u00b0 </string>
     <string name="low_temp">8 \u00b0 </string>
     <string name="cloudy">Cloudy </string>
+    <string name="action_refresh" translatable="false">Refresh</string>
 </resources>
