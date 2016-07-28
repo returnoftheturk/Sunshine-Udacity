@@ -50,6 +50,8 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_refresh){
+            FetchWeatherTask weatherTask = new FetchWeatherTask();
+            weatherTask.execute();
             return true;
         }
 
@@ -81,6 +83,7 @@ public class ForecastFragment extends Fragment {
         //new FetchWeatherTask().execute("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7&appid=a23cc25cf5bb29796354ebbfb426a789");
         //new FetchWeatherTask().execute();
         return rootView;
+
     }
 
 
