@@ -39,12 +39,14 @@ public class ForecastFragment extends Fragment {
     public ForecastFragment() {
     }
 
+    public ArrayAdapter<String> myForecastAdapter;
+    public List<String> weeksForecast;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
-
     }
 
     @Override
@@ -69,7 +71,6 @@ public class ForecastFragment extends Fragment {
             dayCount = "7";
 
             weatherTask.execute(postalCode, format, units, dayCount);
-
             return true;
         }
 
@@ -91,16 +92,17 @@ public class ForecastFragment extends Fragment {
                 "Weds-Cloudy-72/63",
                 "Thurs-Rainy-64/51",
                 "Fri-Foggy-70/46",
-                "Sat-Sunny-76/68"};
+                "Sat-Sunny-76/68",
+                "Sun-Sunny-85/77"};
 
+        weeksForecast = new ArrayList<String>(Arrays.asList(weeksData));
 
+        myForecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, weeksForecast);
 
-        List<String> weeksForecast = new ArrayList<String>(Arrays.asList(weeksData));
-
-        ArrayAdapter<String> myadapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, weeksForecast);
 
         ListView listView = (ListView)rootView.findViewById(R.id.listview_forecast);
-        listView.setAdapter(myadapter);
+        listView.setAdapter(myForecastAdapter);
+
 
         return rootView;
     }
@@ -197,9 +199,9 @@ public class ForecastFragment extends Fragment {
                 resultStrs[i] = day + " - " + description + " - " + highAndLow;
             }
 
-            for (String s : resultStrs) {
+            /*for (String s : resultStrs) {
                 Log.v(LOG_TAG, "Forecast entry: " + s);
-            }
+            }*/
             return resultStrs;
 
         }
@@ -229,12 +231,12 @@ public class ForecastFragment extends Fragment {
                     .appendQueryParameter(MODE_PARAM, params[1])
                     .appendQueryParameter(UNITS_PARAM, params[2])
                     .appendQueryParameter(DAYCOUNT_PARAM, params[3])
-                    .appendQueryParameter(APPID_PARAM,"a23cc25cf5bb29796354ebbfb426a789")
+                    .appendQueryParameter(APPID_PARAM, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
                         .build();
 
 
                 URL url = new URL (builtUri.toString());
-                Log.i(LOG_TAG, "Built URI: " + builtUri.toString());
+                //Log.i(LOG_TAG, "Built URI: " + builtUri.toString());
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
@@ -294,6 +296,16 @@ public class ForecastFragment extends Fragment {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String[] strings) {
+            if (strings!=null) {
+                myForecastAdapter.clear();
+                for (String dayForecastStr : strings) {
+                    myForecastAdapter.add(dayForecastStr);
+                }
+            }
         }
     }
 }
