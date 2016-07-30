@@ -110,7 +110,8 @@ public class ForecastFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(getActivity(), myForecastAdapter.getItem(i), Toast.LENGTH_SHORT).show();
             } 
-        });
+        }
+        );
 
 
         return rootView;
