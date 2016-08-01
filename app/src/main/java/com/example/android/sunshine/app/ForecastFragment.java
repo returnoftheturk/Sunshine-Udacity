@@ -75,6 +75,11 @@ public class ForecastFragment extends Fragment {
             weatherTask.execute(postalCode, format, units, dayCount);
             return true;
         }
+//        if (id ==R.id.action_settings){
+//            return true;
+//
+//
+//        }
 
         return super.onOptionsItemSelected(item);
     }
