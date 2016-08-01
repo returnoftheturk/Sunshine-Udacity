@@ -31,8 +31,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by akgul on 7/27/2016.
@@ -44,8 +42,6 @@ public class ForecastFragment extends Fragment {
     }
 
     public ArrayAdapter<String> myForecastAdapter;
-    public List<String> weeksForecast;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -63,29 +59,33 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_refresh){
-            FetchWeatherTask weatherTask = new FetchWeatherTask();
-
-            String postalCode = null;
-            String format = null;
-            String units = null;
-            String dayCount = null;
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            postalCode = sharedPreferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-            Log.v("Error","Postal Code:  " + postalCode );
-            format = "json";
-            units = "metric";
-            dayCount = "7";
-
-            weatherTask.execute(postalCode, format, units, dayCount);
             return true;
         }
-//        if (id ==R.id.action_settings){
-//            return true;
-//
-//
-//        }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateWeather(){
+        FetchWeatherTask weatherTask = new FetchWeatherTask();
+
+        String postalCode = null;
+        String format = null;
+        String units = null;
+        String dayCount = null;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        postalCode = sharedPreferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        //Log.v("Error","Postal Code:  " + postalCode );
+        format = "json";
+        units = "metric";
+        dayCount = "7";
+
+        weatherTask.execute(postalCode, format, units, dayCount);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
     }
 
     /* The date/time conversion code is going to be moved outside the asynctask later,
@@ -98,17 +98,8 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        String[]weeksData= {"Today-Sunny-88/63",
-                "Tomorrow-Foggy-70/45",
-                "Weds-Cloudy-72/63",
-                "Thurs-Rainy-64/51",
-                "Fri-Foggy-70/46",
-                "Sat-Sunny-76/68",
-                "Sun-Sunny-85/77"};
-
-        weeksForecast = new ArrayList<String>(Arrays.asList(weeksData));
-
-        myForecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, weeksForecast);
+        myForecastAdapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.list_item_forecast, R.id.list_item_forecast_textview, new ArrayList<String>());
 
 
         ListView listView = (ListView)rootView.findViewById(R.id.listview_forecast);
@@ -124,8 +115,6 @@ public class ForecastFragment extends Fragment {
             } 
         }
         );
-
-
 
         return rootView;
     }
