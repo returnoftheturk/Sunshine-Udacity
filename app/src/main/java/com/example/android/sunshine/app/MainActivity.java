@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity {
         Uri uri = Uri.parse("geo:0,0?")
                 .buildUpon().appendQueryParameter("q", units).build();
         intent.setData(uri);
-       
+
         if (intent.resolveActivity(getPackageManager())!=null){
             startActivity(intent);
         }
