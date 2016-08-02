@@ -59,13 +59,11 @@ public class MainActivity extends ActionBarActivity {
         Uri uri = Uri.parse("geo:0,0?")
                 .buildUpon().appendQueryParameter("q", units).build();
         intent.setData(uri);
-        Log.v("", "String units: " + units);
-        Log.v("", "URI uri: " + uri);
-
+       
         if (intent.resolveActivity(getPackageManager())!=null){
             startActivity(intent);
         }
-        else Log.e(LOG_TAG, "Couldn't open location: " + units + "no map application installed");
+        else Log.d(LOG_TAG, "Couldn't open location: " + units + "no map application installed");
 
     }
 
