@@ -35,5 +35,7 @@
         <item>@string/pref_units_imperial</item>
     </string-array>
 
+    <string name="action_map_title">Open on Map </string>
+
 
 </resources>
