@@ -43,10 +43,13 @@ public class ForecastFragment extends Fragment {
 
     public ArrayAdapter<String> myForecastAdapter;
 
+    final String LOG_TAG = ForecastFragment.class.getSimpleName();
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        Log.v(LOG_TAG,"ONCREATE" );
+
     }
 
     @Override
@@ -87,8 +90,32 @@ public class ForecastFragment extends Fragment {
     public void onStart() {
         super.onStart();
         updateWeather();
+        Log.v(LOG_TAG,"ONSTART");
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.v(LOG_TAG,"ONPAUSE");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.v(LOG_TAG,"ONSTOP");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.v(LOG_TAG,"ONRESUME");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.v(LOG_TAG,"ONDESTROY");
+    }
     /* The date/time conversion code is going to be moved outside the asynctask later,
          * so for convenience we're breaking it out into its own method now.
          */
