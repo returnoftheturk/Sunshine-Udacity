@@ -347,6 +347,7 @@ public class ForecastFragment extends Fragment {
             catch (JSONException e){
                 Log.e(LOG_TAG, "Error ", e);
                 e.printStackTrace();
+
             }
             return null;
         }
@@ -355,6 +356,7 @@ public class ForecastFragment extends Fragment {
         protected void onPostExecute(String[] strings) {
             if (strings!=null) {
                 myForecastAdapter.clear();
+
                 for (String dayForecastStr : strings) {
                     myForecastAdapter.add(dayForecastStr);
                 }
