@@ -15,6 +15,7 @@
  */
 package com.example.android.sunshine.app.data;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
@@ -111,6 +112,26 @@ public class TestDb extends AndroidTestCase {
         also make use of the ValidateCurrentRecord function from within TestUtilities.
     */
     public void testLocationTable() {
+        SQLiteDatabase db = new WeatherDbHelper(this.mContext).getWritableDatabase();
+        ContentValues locationValues = new ContentValues();
+
+        locationValues = TestUtilities.createNorthPoleLocationValues();
+
+        long rowId = db.insert(WeatherContract.LocationEntry.TABLE_NAME, null, locationValues);
+        assertTrue("Row ID is -1", rowId != -1);
+
+        Cursor c = db.query(WeatherContract.LocationEntry.TABLE_NAME, null, null, null, null, null, null);
+
+        assertTrue("Error, first row not found", c.moveToFirst());
+
+        TestUtilities.validateCurrentRecord("Incorrect", c, locationValues);
+
+        assertFalse("Error: More than one row found in database", c.moveToNext());
+
+        c.close();
+        db.close();
+
+
         // First step: Get reference to writable database
 
         // Create ContentValues of what you want to insert
