@@ -17,6 +17,7 @@ package com.example.android.sunshine.app.data;
 
 import android.annotation.TargetApi;
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -36,6 +37,8 @@ public class WeatherProvider extends ContentProvider {
     static final int LOCATION = 300;
 
     private static final SQLiteQueryBuilder sWeatherByLocationSettingQueryBuilder;
+    private static final SQLiteQueryBuilder sWeather;
+    private static final SQLiteQueryBuilder sLocation;
 
     static{
         sWeatherByLocationSettingQueryBuilder = new SQLiteQueryBuilder();
@@ -49,6 +52,18 @@ public class WeatherProvider extends ContentProvider {
                         "." + WeatherContract.WeatherEntry.COLUMN_LOC_KEY +
                         " = " + WeatherContract.LocationEntry.TABLE_NAME +
                         "." + WeatherContract.LocationEntry._ID);
+    }
+
+    static {
+        sWeather = new SQLiteQueryBuilder();
+        sWeather.setTables(WeatherContract.WeatherEntry.TABLE_NAME);
+
+    }
+
+    static {
+        sLocation = new SQLiteQueryBuilder();
+        sLocation.setTables(WeatherContract.LocationEntry.TABLE_NAME);
+
     }
 
     //location.location_setting = ?
@@ -107,6 +122,7 @@ public class WeatherProvider extends ContentProvider {
                 sortOrder
         );
     }
+
 
     /*
         Students: Here is where you need to create the UriMatcher. This UriMatcher will
@@ -191,12 +207,15 @@ public class WeatherProvider extends ContentProvider {
             }
             // "weather"
             case WEATHER: {
-                retCursor = null;
+                retCursor = sWeather.query(mOpenHelper.getReadableDatabase(),
+                        projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             }
             // "location"
             case LOCATION: {
-                retCursor = null;
+                //long something = ContentUris.parseId(uri);
+                retCursor = sLocation.query(mOpenHelper.getReadableDatabase(),
+                        projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             }
 
