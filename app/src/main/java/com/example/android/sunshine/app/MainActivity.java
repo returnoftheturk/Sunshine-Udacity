@@ -53,17 +53,17 @@ public class MainActivity extends ActionBarActivity {
 
     private void openLocationOnMap(){
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String units = sharedPreferences.getString(getString(R.string.pref_location_key),
-                                                getString(R.string.pref_location_default));
+
+
+        String location = Utility.getPreferredLocation(this);
         Uri uri = Uri.parse("geo:0,0?")
-                .buildUpon().appendQueryParameter("q", units).build();
+                .buildUpon().appendQueryParameter("q", location).build();
         intent.setData(uri);
 
         if (intent.resolveActivity(getPackageManager())!=null){
             startActivity(intent);
         }
-        else Log.d(LOG_TAG, "Couldn't open location: " + units + "no map application installed");
+        else Log.d(LOG_TAG, "Couldn't open location: " + location + "no map application installed");
 
     }
 
