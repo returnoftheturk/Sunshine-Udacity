@@ -17,8 +17,14 @@
 package com.example.android.sunshine.app;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
@@ -30,6 +36,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.android.sunshine.app.data.WeatherContract;
 
 public class DetailActivity extends ActionBarActivity {
 
@@ -63,32 +71,76 @@ public class DetailActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class DetailFragment extends Fragment {
+    public static class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
         private final String LOG_TAG = DetailFragment.class.getSimpleName();
         public final String SUNSHINE_HASHTAG = " #SunshineApp";
         public String mDailyForecast;
-       // private ShareActionProvider mShareActionProvider;
+        private final int MY_LOADER_ID = 1;
+
+        public static final String[] detailColumn = {
+                WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
+                WeatherContract.WeatherEntry.COLUMN_DATE,
+                WeatherContract.WeatherEntry.COLUMN_SHORT_DESC,
+                WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
+                WeatherContract.WeatherEntry.COLUMN_MIN_TEMP,
+        };
+
+        static final int COL_WEATHER_ID = 0;
+        static final int COL_WEATHER_DATE= 1;
+        static final int COL_WEATHER_DESC = 2;
+        static final int COL_WEATHER_MAX_TEMP = 3;
+        static final int COL_WEATHER_MIN_TEMP = 4;
+
+        private ShareActionProvider mShareActionProvider;
 
         public DetailFragment() {
             setHasOptionsMenu(true);
         }
 
+        public Loader<Cursor> onCreateLoader(int id, Bundle args){
+            Intent intent = getActivity().getIntent();
+            if (intent ==null)
+                return null;
+
+            return new CursorLoader(getActivity(), intent.getData(), detailColumn, null, null, null);
+        }
+
+        public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor){
+            boolean isMetric = Utility.isMetric(getActivity());
+            if (!cursor.moveToFirst())
+                return;
+
+
+            String weatherDate = Utility.formatDate(cursor.getLong(COL_WEATHER_DATE));
+            String weatherDesc = cursor.getString(COL_WEATHER_DESC);
+            String highTemp =  Utility.formatTemperature(cursor.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
+            String lowTemp = Utility.formatTemperature(cursor.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
+            mDailyForecast = weatherDate + "-" + weatherDesc + "-" + highTemp + "/" + lowTemp;
+            TextView textView = (TextView) getView().findViewById(R.id.detail_text);
+            textView.setText(mDailyForecast);
+
+            if (mShareActionProvider!=null){
+                mShareActionProvider.setShareIntent(createShareIntent());
+            }
+
+        }
+
+        public void onLoaderReset(Loader<Cursor> cursorLoader){        }
+
+        @Override
+        public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+            getLoaderManager().initLoader(MY_LOADER_ID, null, this);
+
+        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-            Intent intent = getActivity().getIntent();
-            View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-
-            if (intent!=null ){
-                mDailyForecast = intent.getDataString();
-                TextView textView = (TextView) rootView.findViewById(R.id.detail_text);
-                textView.setText(mDailyForecast);
-            }
-
-            return rootView;
+            return inflater.inflate(R.layout.fragment_detail, container, false);
         }
+
         private Intent createShareIntent(){
             Intent shareIntent = new Intent (Intent.ACTION_SEND);
             shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -104,9 +156,9 @@ public class DetailActivity extends ActionBarActivity {
             inflater.inflate(R.menu.detailfragment, menu);
 
             MenuItem item = menu.findItem(R.id.action_share);
-            ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+            mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
 
-            if (mShareActionProvider!= null){
+            if (mDailyForecast!= null){
                 mShareActionProvider.setShareIntent(createShareIntent());
             }
             else Log.d(LOG_TAG, "String not found");
