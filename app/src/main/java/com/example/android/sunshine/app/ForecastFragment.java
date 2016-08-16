@@ -151,6 +151,10 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         return rootView;
     }
 
+    public void onLocationChanged(){
+        updateWeather();
+        getLoaderManager().restartLoader(MY_LOADER_ID, null, this);
+    }
 
 
     private void updateWeather() {
@@ -159,9 +163,4 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         weatherTask.execute(location);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        updateWeather();
-    }
 }
