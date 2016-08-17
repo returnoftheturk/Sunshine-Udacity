@@ -162,5 +162,4 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         String location = Utility.getPreferredLocation(getActivity());
         weatherTask.execute(location);
     }
-
 }

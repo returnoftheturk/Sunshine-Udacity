@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/list_item_icon"
-        android:src ="@drawable/ic_launcher"
         />
 
     <LinearLayout
@@ -24,7 +23,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Tomorrow"
             android:textSize="@dimen/abc_text_size_medium_material"
             android:id="@+id/list_item_date_textview"/>
         />
@@ -32,7 +30,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text = "Clear"
             android:id="@+id/list_item_forecast_textview"/>
 
     </LinearLayout>
@@ -44,12 +41,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="81"
             android:id="@+id/list_item_high_textview"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="68"
             android:id="@+id/list_item_low_textview"/>
     </LinearLayout>
 
