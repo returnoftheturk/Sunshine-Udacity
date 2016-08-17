@@ -1,10 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:id="@+id/list_item_forecast_textview"
+    android:layout_width="match_parent"
+    android:padding="16dp"
+    android:orientation="horizontal"
     android:gravity="center_vertical"
     android:minHeight="?android:attr/listPreferredItemHeight">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/list_item_icon"
+        android:src ="@drawable/ic_launcher"
+        />
 
-</TextView>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Tomorrow"
+            android:textSize="@dimen/abc_text_size_medium_material"
+            android:id="@+id/list_item_date_textview"/>
+        />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "Clear"
+            android:id="@+id/list_item_forecast_textview"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="81"
+            android:id="@+id/list_item_high_textview"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="68"
+            android:id="@+id/list_item_low_textview"/>
+    </LinearLayout>
+
+</LinearLayout>
