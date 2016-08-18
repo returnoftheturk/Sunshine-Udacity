@@ -2,6 +2,7 @@ package com.example.android.sunshine.app;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public final String SUNSHINE_HASHTAG = " #SunshineApp";
     public String mDailyForecast;
     private ShareActionProvider mShareActionProvider;
+    private Uri mUri;
 
     private final int MY_LOADER_ID = 1;
 
@@ -74,12 +76,30 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         setHasOptionsMenu(true);
     }
 
-    public Loader<Cursor> onCreateLoader(int id, Bundle args){
-        Intent intent = getActivity().getIntent();
-        if (intent ==null)
-            return null;
+//    public static DetailFragment newInstance(Uri uri){
+//        DetailFragment ff = new DetailFragment();
+//
+//        Bundle args = new Bundle();
+//        args.putParcelable("URIWITHDATE", uri);
+//        ff.setArguments(args);
+//
+//        return ff;
+//
+//    }
+//
+//    public Uri getUri(){
+//        //Log.v(LOG_TAG, "URI: " + getArguments().getParcelable("URIWITHDATE"));
+//        return getArguments().getParcelable("URIWITHDATE");
+//    }
 
-        return new CursorLoader(getActivity(), intent.getData(), detailColumn, null, null, null);
+    public Loader<Cursor> onCreateLoader(int id, Bundle args){
+        if (mUri==null)
+            return null;
+//        Intent intent = getActivity().getIntent();
+//        if (intent ==null || intent.getData()==null)
+//            return null;
+
+        return new CursorLoader(getActivity(), mUri, detailColumn, null, null, null);
     }
 
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor){
@@ -139,6 +159,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle arguments = getArguments();
+        if (arguments!=null)
+            mUri = arguments.getParcelable("URIWITHDATE");
+
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
         mIconView = (ImageView) rootView.findViewById(R.id.list_item_icon_imageview);

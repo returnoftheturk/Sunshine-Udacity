@@ -15,6 +15,7 @@
  */
 package com.example.android.sunshine.app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -41,6 +42,7 @@ import com.example.android.sunshine.app.data.WeatherContract;
 public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private ForecastAdapter mForecastAdapter;
+    Callback mCallback;
 
     public ForecastFragment() {
     }
@@ -139,11 +141,17 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(i);
                 if (cursor!=null){
                     String locationSetting = Utility.getPreferredLocation(getActivity());
-                    Intent intent = new Intent(getActivity(), DetailActivity.class)
-                            .setData(WeatherContract.WeatherEntry
-                                    .buildWeatherLocationWithDate(locationSetting, cursor.getLong(COL_WEATHER_DATE)));
 
-                    startActivity(intent);
+                    Uri uri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationSetting,
+                            cursor.getLong(COL_WEATHER_DATE));
+
+                    mCallback.onItemSelected(uri);
+
+//                    Intent intent = new Intent(getActivity(), DetailActivity.class)
+//                            .setData(WeatherContract.WeatherEntry
+//                                    .buildWeatherLocationWithDate(locationSetting, cursor.getLong(COL_WEATHER_DATE)));
+//
+//                    startActivity(intent);
                 }
             }
         });
@@ -161,5 +169,23 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
         String location = Utility.getPreferredLocation(getActivity());
         weatherTask.execute(location);
+    }
+
+    public interface Callback {
+        /**
+         * DetailFragmentCallback for when an item has been selected.
+         */
+        public void onItemSelected(Uri dateUri);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mCallback = (Callback) activity;
+
+        } catch (ClassCastException e){
+            throw new ClassCastException(activity.toString() + " must implement Callback");
+        }
     }
 }

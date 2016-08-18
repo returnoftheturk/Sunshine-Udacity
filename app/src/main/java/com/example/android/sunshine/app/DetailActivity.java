@@ -46,11 +46,17 @@ public class DetailActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        DetailFragment detailFragment = new DetailFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("URIWITHDATE", getIntent().getData());
+        detailFragment.setArguments(args);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new DetailFragment())
+                    .add(R.id.weather_detail_container, detailFragment)
                     .commit();
         }
+
     }
 
     @Override
@@ -71,5 +77,5 @@ public class DetailActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-
+    
 }
