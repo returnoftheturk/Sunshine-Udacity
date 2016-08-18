@@ -90,7 +90,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         String weatherDate = Utility.formatDate(cursor.getLong(COL_WEATHER_DATE));
 
         int weatherId = cursor.getInt(COL_WEATHER_CONDITION_ID);
-        mIconView.setImageResource(R.drawable.ic_launcher);
+
+        mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
 
         String dayDate = Utility.getDayName(getActivity(), cursor.getLong(COL_WEATHER_DATE));
         mDayView.setText(dayDate);
@@ -148,7 +149,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mLowView = (TextView) rootView.findViewById(R.id.list_item_low_textview);
         mHumidityView = (TextView) rootView.findViewById(R.id.list_item_humidity_textview);
         mWindView = (TextView) rootView.findViewById(R.id.list_item_wind_textview);
-        mPressureView = (TextView) rootView.findViewById(R.id.list_item_pressure_textview);
+        mPressureView = (TextView) rootView .findViewById(R.id.list_item_pressure_textview);
         return rootView;
     }
 
