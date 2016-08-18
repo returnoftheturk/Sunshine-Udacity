@@ -18,12 +18,13 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
     private boolean mTwoPane;
 
     public void onItemSelected(Uri uri){
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("URIWITHDATE", uri);
-        DetailFragment detailFragment = new DetailFragment();
-        detailFragment.setArguments(bundle);
-
         if (mTwoPane){
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(DetailFragment.DETAIL_URI, uri);
+            DetailFragment detailFragment = new DetailFragment();
+            detailFragment.setArguments(bundle);
+
+
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.weather_detail_container, detailFragment, DETAILFRAGMENT_TAG)
                     .commit();
@@ -58,10 +59,19 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
     @Override
     protected void onResume() {
         super.onResume();
-        if (mLocation!=Utility.getPreferredLocation(this)){
-            ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
-            ff.onLocationChanged();
-            mLocation = Utility.getPreferredLocation(this);
+
+        String location = Utility.getPreferredLocation( this );
+        // update the location in our second pane using the fragment manager
+        if (location != null && !location.equals(mLocation)) {
+            ForecastFragment ff = (ForecastFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
+            if ( null != ff ) {
+                ff.onLocationChanged();
+            }
+            DetailFragment df = (DetailFragment)getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
+            if ( null != df ) {
+                df.onLocationChanged(location);
+            }
+            mLocation = location;
         }
     }
 

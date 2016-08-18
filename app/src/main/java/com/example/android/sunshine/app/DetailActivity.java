@@ -48,7 +48,7 @@ public class DetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_detail);
         DetailFragment detailFragment = new DetailFragment();
         Bundle args = new Bundle();
-        args.putParcelable("URIWITHDATE", getIntent().getData());
+        args.putParcelable(DetailFragment.DETAIL_URI, getIntent().getData());
         detailFragment.setArguments(args);
 
         if (savedInstanceState == null) {

@@ -32,6 +32,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public String mDailyForecast;
     private ShareActionProvider mShareActionProvider;
     private Uri mUri;
+    static final String DETAIL_URI = "DetailURI";
 
     private final int MY_LOADER_ID = 1;
 
@@ -95,9 +96,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public Loader<Cursor> onCreateLoader(int id, Bundle args){
         if (mUri==null)
             return null;
-//        Intent intent = getActivity().getIntent();
-//        if (intent ==null || intent.getData()==null)
-//            return null;
 
         return new CursorLoader(getActivity(), mUri, detailColumn, null, null, null);
     }
@@ -161,7 +159,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                              Bundle savedInstanceState) {
         Bundle arguments = getArguments();
         if (arguments!=null)
-            mUri = arguments.getParcelable("URIWITHDATE");
+            mUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
@@ -198,6 +196,17 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mShareActionProvider.setShareIntent(createShareIntent());
         }
         else Log.d(LOG_TAG, "String not found");
+    }
+
+    void onLocationChanged( String newLocation ) {
+        // replace the uri, since the location has changed
+        Uri uri = mUri;
+        if (null != uri) {
+            long date = WeatherContract.WeatherEntry.getDateFromUri(uri);
+            Uri updatedUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(newLocation, date);
+            mUri = updatedUri;
+            getLoaderManager().restartLoader(MY_LOADER_ID, null, this);
+        }
     }
 
 }
