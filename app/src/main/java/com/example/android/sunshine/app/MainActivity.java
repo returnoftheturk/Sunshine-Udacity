@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -54,8 +55,13 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
                         .replace(R.id.weather_detail_container, new DetailFragment(), DETAILFRAGMENT_TAG)
                         .commit();
             }
-        } else mTwoPane = false;
+        } else{
+            mTwoPane = false;
+            getSupportActionBar().setElevation(0f);
+        }
+        ForecastFragment forecastFragment = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
 
+        forecastFragment.setmUseToday(!mTwoPane);
     }
 
     @Override

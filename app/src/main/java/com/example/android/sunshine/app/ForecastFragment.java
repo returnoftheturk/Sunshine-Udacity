@@ -45,6 +45,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     private String ITEM_SELECTED_POSITION="ItemSelectedPosition";
     private ListView mListView;
     private int currentPosition=ListView.INVALID_POSITION;
+    private boolean mUseToday;
 
     public ForecastFragment() {
     }
@@ -128,6 +129,12 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         return super.onOptionsItemSelected(item);
     }
 
+    public void setmUseToday(boolean useToday){
+        mUseToday = useToday;
+        if (mForecastAdapter!=null)
+            mForecastAdapter.setmUseToday(mUseToday);
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
@@ -136,7 +143,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
-        // Get a reference to the ListView, and attach this adapter to it.
+        mForecastAdapter.setmUseToday(mUseToday);
         mListView = (ListView) rootView.findViewById(R.id.listview_forecast);
         mListView.setAdapter(mForecastAdapter);
 

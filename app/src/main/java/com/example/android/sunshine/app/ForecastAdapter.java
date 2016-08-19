@@ -21,6 +21,7 @@ import org.w3c.dom.Text;
 public class ForecastAdapter extends CursorAdapter {
     private final int VIEW_TYPE_TODAY = 0;
     private final int VIEW_TYPE_FUTURE = 1;
+    private static boolean mUseToday = true;
 
     public ForecastAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
@@ -31,9 +32,14 @@ public class ForecastAdapter extends CursorAdapter {
         return 2;
     }
 
+    public void setmUseToday(boolean useToday){
+
+        mUseToday = useToday;
+    }
+
     @Override
     public int getItemViewType(int position) {
-        return (position==0) ? VIEW_TYPE_TODAY:VIEW_TYPE_FUTURE;
+        return (position==0&&mUseToday) ? VIEW_TYPE_TODAY:VIEW_TYPE_FUTURE;
     }
 
     /*
