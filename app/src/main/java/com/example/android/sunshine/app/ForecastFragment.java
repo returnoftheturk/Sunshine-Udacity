@@ -16,7 +16,6 @@
 package com.example.android.sunshine.app;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -43,6 +42,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     private ForecastAdapter mForecastAdapter;
     Callback mCallback;
+    private String ITEM_SELECTED_POSITION="ItemSelectedPosition";
+    private ListView mListView;
+    private int currentPosition=ListView.INVALID_POSITION;
 
     public ForecastFragment() {
     }
@@ -84,6 +86,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor){
         mForecastAdapter.swapCursor(cursor);
+        if (currentPosition!=ListView.INVALID_POSITION)
+            mListView.smoothScrollToPosition(currentPosition);
+
 
     }
 
@@ -125,20 +130,24 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
+
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
         // Get a reference to the ListView, and attach this adapter to it.
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
-        listView.setAdapter(mForecastAdapter);
+        mListView = (ListView) rootView.findViewById(R.id.listview_forecast);
+        mListView.setAdapter(mForecastAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.smoothScrollToPosition(currentPosition);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(i);
+
                 if (cursor!=null){
                     String locationSetting = Utility.getPreferredLocation(getActivity());
 
@@ -146,12 +155,22 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                             cursor.getLong(COL_WEATHER_DATE));
 
                     mCallback.onItemSelected(uri);
-
+                    currentPosition = i;
                 }
             }
         });
 
+        if (savedInstanceState!=null && savedInstanceState.containsKey(ITEM_SELECTED_POSITION))
+            currentPosition = savedInstanceState.getInt(ITEM_SELECTED_POSITION);
+
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (currentPosition!=ListView.INVALID_POSITION)
+            outState.putInt(ITEM_SELECTED_POSITION, currentPosition);
     }
 
     public void onLocationChanged(){
