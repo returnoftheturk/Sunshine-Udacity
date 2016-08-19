@@ -81,23 +81,30 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 //        DetailFragment ff = new DetailFragment();
 //
 //        Bundle args = new Bundle();
-//        args.putParcelable("URIWITHDATE", uri);
+//        args.putParcelable(DETAIL_URI, uri);
 //        ff.setArguments(args);
 //
 //        return ff;
 //
 //    }
-//
+////
 //    public Uri getUri(){
-//        //Log.v(LOG_TAG, "URI: " + getArguments().getParcelable("URIWITHDATE"));
-//        return getArguments().getParcelable("URIWITHDATE");
+//        Uri uri;
+//        try {
+//            uri = getArguments().getParcelable(DETAIL_URI);
+//
+//        } catch (NullPointerException e){
+//            return null;
+//
+//        }
+//        return uri;
 //    }
 
     public Loader<Cursor> onCreateLoader(int id, Bundle args){
-        if (mUri==null)
-            return null;
-
-        return new CursorLoader(getActivity(), mUri, detailColumn, null, null, null);
+        if (null!=mUri) {
+            return new CursorLoader(getActivity(), mUri, detailColumn, null, null, null);
+        }
+        return null;
     }
 
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor){
@@ -158,9 +165,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Bundle arguments = getArguments();
-        if (arguments!=null)
+        if (arguments!=null) {
             mUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
-
+//            mUri = getUri();
+        }
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
         mIconView = (ImageView) rootView.findViewById(R.id.list_item_icon_imageview);

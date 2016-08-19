@@ -147,11 +147,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
                     mCallback.onItemSelected(uri);
 
-//                    Intent intent = new Intent(getActivity(), DetailActivity.class)
-//                            .setData(WeatherContract.WeatherEntry
-//                                    .buildWeatherLocationWithDate(locationSetting, cursor.getLong(COL_WEATHER_DATE)));
-//
-//                    startActivity(intent);
                 }
             }
         });

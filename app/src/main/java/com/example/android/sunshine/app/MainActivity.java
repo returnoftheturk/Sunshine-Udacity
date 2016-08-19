@@ -19,6 +19,8 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
 
     public void onItemSelected(Uri uri){
         if (mTwoPane){
+//            DetailFragment detailFragment = DetailFragment.newInstance(uri);
+
             Bundle bundle = new Bundle();
             bundle.putParcelable(DetailFragment.DETAIL_URI, uri);
             DetailFragment detailFragment = new DetailFragment();
