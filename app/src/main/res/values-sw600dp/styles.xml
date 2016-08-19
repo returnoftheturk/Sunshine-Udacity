@@ -1,0 +1,7 @@
+<resources>
+    <style name="ForecastListStyle" parent="android:Widget.ListView">
+        <item name="android:choiceMode">singleChoice</item>
+    </style>
+
+
+</resources>
