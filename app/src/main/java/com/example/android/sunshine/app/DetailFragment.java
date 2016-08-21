@@ -142,6 +142,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         String pressure = getActivity().getString(R.string.format_pressure, cursor.getFloat(COL_WEATHER_PRESSURE));
         mPressureView.setText(pressure);
 
+        mIconView.setContentDescription(weatherDesc);
+
 
         mDailyForecast = String.format("%s - %s - %s/%s",weatherDate, weatherDesc, highTemp,lowTemp);
 

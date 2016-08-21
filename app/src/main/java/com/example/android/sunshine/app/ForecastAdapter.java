@@ -115,5 +115,6 @@ public class ForecastAdapter extends CursorAdapter {
 
         String weatherDesc = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
         viewHolder.descView.setText(weatherDesc);
+        viewHolder.iconView.setContentDescription(weatherDesc);
     }
 }
