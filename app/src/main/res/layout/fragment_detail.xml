@@ -13,32 +13,52 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/list_item_day_textview" />
+            android:id="@+id/list_item_day_textview"
+            android:text="Today"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@android:color/black"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/list_item_date_textview" />
+            android:id="@+id/list_item_date_textview"
+            android:text="June 28"
+            android:textSize="16sp"
+            android:textColor="@color/sunshine_grey"
+            android:fontFamily="sans-serif-condensed"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:gravity="center_vertical">
+            android:gravity="start">
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="1"
-                android:gravity="center_horizontal">
+                android:layout_gravity="center_horizontal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/list_item_high_textview" />
+                    android:id="@+id/list_item_high_textview"
+                    android:text="28"
+                    android:textSize="96sp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="@android:color/black"
+
+                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/list_item_low_textview" />
+                    android:id="@+id/list_item_low_textview"
+                    android:text="18"
+                    android:textSize="48sp"
+                    android:paddingLeft="5dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="@color/sunshine_grey"/>
             </LinearLayout>
 
 
@@ -49,14 +69,20 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal">
 
-            <ImageView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/list_item_icon_imageview"/>
+                    android:id="@+id/list_item_icon_imageview"
+                    android:src="@drawable/art_clear"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/list_item_forecast_textview" />
+                    android:id="@+id/list_item_forecast_textview"
+                    android:text="Clear"
+                    android:textSize="22sp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textColor="@color/sunshine_grey"/>
 
             </LinearLayout>
 
@@ -66,15 +92,28 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/list_item_humidity_textview" />
+            android:id="@+id/list_item_humidity_textview"
+            android:text="Humidity: 71%"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@android:color/black"
+            />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/list_item_wind_textview"/>
+            android:id="@+id/list_item_pressure_textview"
+            android:text="Pressure: 1016 hPa"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@android:color/black"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/list_item_pressure_textview"/>
+            android:id="@+id/list_item_wind_textview"
+            android:text="Wind: 2km/h NW"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@android:color/black"/>
 
     </LinearLayout>
 
