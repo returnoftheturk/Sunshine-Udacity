@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.sunshine.app.DetailFragment">
+    tools:context="com.example.android.sunshine.app.DetailFragment"
+    xmlns:custom="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -115,6 +116,12 @@
             android:textSize="22sp"
             android:fontFamily="sans-serif-light"
             android:textColor="@android:color/black"/>
+
+        <com.example.android.sunshine.app.MyView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/list_item_compass"
+            custom:direction="60"/>
 
     </LinearLayout>
 

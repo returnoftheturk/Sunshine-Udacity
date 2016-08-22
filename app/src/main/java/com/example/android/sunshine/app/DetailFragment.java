@@ -71,6 +71,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mHumidityView;
     private TextView mWindView;
     private TextView mPressureView;
+    private MyView mCompassView;
 
 
     public DetailFragment() {
@@ -115,6 +116,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         String weatherDate = Utility.formatDate(cursor.getLong(COL_WEATHER_DATE));
 
         int weatherId = cursor.getInt(COL_WEATHER_CONDITION_ID);
+
+        mCompassView.setDirection(cursor.getFloat(COL_WEATHER_WIND_DEGREES));
 
         mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
 
@@ -173,6 +176,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         }
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
+        mCompassView = (MyView) rootView.findViewById(R.id.list_item_compass);
         mIconView = (ImageView) rootView.findViewById(R.id.list_item_icon_imageview);
         mDayView = (TextView) rootView.findViewById(R.id.list_item_day_textview);
         mDateView = (TextView) rootView.findViewById(R.id.list_item_date_textview);

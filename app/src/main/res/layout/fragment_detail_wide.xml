@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true">
 
     <LinearLayout
@@ -81,6 +82,8 @@
                 android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
                 android:textAppearance="?android:textAppearanceLarge" />
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -102,6 +105,12 @@
                 android:layout_width="wrap_content"
                 android:textColor="@color/sunshine_grey"
                 android:textAppearance="?android:textAppearanceLarge"/>
+
+            <com.example.android.sunshine.app.MyView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/list_item_compass"
+                />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
