@@ -43,9 +43,6 @@
                 android:value="com.example.android.sunshine.app.MainActivity"/>
         </activity>
 
-        <service android:name=".service.SunshineService"/>
-        <receiver android:name=".service.SunshineService$AlarmReceiver"
-            android:enabled="true"/>
 
         <service
             android:name="com.example.android.sunshine.app.sync.SunshineAuthenticatorService">

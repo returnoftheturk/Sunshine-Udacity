@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
+
 
 public class MainActivity extends ActionBarActivity implements ForecastFragment.Callback{
     private final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -62,6 +64,8 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
         ForecastFragment forecastFragment = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
 
         forecastFragment.setmUseToday(!mTwoPane);
+        SunshineSyncAdapter.initializeSyncAdapter(this);
+
     }
 
     @Override
@@ -125,6 +129,5 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
         else Log.d(LOG_TAG, "Couldn't open location: " + location + "no map application installed");
 
     }
-
 
 }
