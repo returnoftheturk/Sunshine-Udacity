@@ -105,12 +105,10 @@ public class ForecastAdapter extends CursorAdapter {
         String friendlyDayString = Utility.getFriendlyDayString(context, dateInMillis);
         viewHolder.dateView.setText(friendlyDayString);
 
-        String highTemp = Utility.formatTemperature(context, cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP),
-                Utility.isMetric(context));
+        String highTemp = Utility.formatTemperature(context, cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP));
         viewHolder.highView.setText(highTemp);
 
-        String lowTemp = Utility.formatTemperature(context, cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP),
-                Utility.isMetric(context));
+        String lowTemp = Utility.formatTemperature(context, cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP));
         viewHolder.lowView.setText(lowTemp);
 
         String weatherDesc = cursor.getString(ForecastFragment.COL_WEATHER_DESC);

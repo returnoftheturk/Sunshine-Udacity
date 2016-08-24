@@ -130,10 +130,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         String weatherDesc = cursor.getString(COL_WEATHER_DESC);
         mDescView.setText(weatherDesc);
 
-        String highTemp =  Utility.formatTemperature(getActivity(), cursor.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
+        String highTemp =  Utility.formatTemperature(getActivity(), cursor.getDouble(COL_WEATHER_MAX_TEMP));
         mHighView.setText(highTemp);
 
-        String lowTemp = Utility.formatTemperature(getActivity(), cursor.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
+        String lowTemp = Utility.formatTemperature(getActivity(), cursor.getDouble(COL_WEATHER_MIN_TEMP));
         mLowView.setText(lowTemp);
 
         String humidity = getActivity().getString(R.string.format_humidity, cursor.getFloat(COL_WEATHER_HUMIDITY));
