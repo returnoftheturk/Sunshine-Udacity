@@ -83,7 +83,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             Cursor currentDayCursor = getContext().getContentResolver().query(weatherUri,
                     NOTIFY_WEATHER_PROJECTION, null, null, null);
 
-            if (currentDayCursor.moveToFirst()) {
+
+            if (currentDayCursor.moveToFirst()&&Utility.getPreferredNotification(context)) {
                 int weatherId = currentDayCursor.getInt(INDEX_WEATHER_ID);
                 double maxTemp = currentDayCursor.getDouble(INDEX_MAX_TEMP);
                 double minTemp = currentDayCursor.getDouble(INDEX_MIN_TEMP);
@@ -108,6 +109,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
                 mBuilder.setContentIntent(resultPendingIntent);
                 mBuilder.setAutoCancel(true);
+
 
                 NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                 mNotificationManager.notify(WEATHER_NOTIFICATION_ID, mBuilder.build());

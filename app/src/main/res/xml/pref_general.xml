@@ -19,7 +19,7 @@
          android:key="@string/pref_notifications_key"
          android:summaryOn="@string/pref_notification_enabled_summary"
          android:summaryOff="@string/pref_notification_disabled_summary"
-         android:defaultValue="true"
+         android:defaultValue="@string/pref_notifications_default"
          />
 
 
