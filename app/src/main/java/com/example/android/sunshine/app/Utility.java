@@ -113,6 +113,14 @@ public class Utility {
         String monthDayString = monthDayFormat.format(dateInMillis);
         return monthDayString;
     }
+
+    public static String getFormattedDate(long dateInMillis){
+        Time time = new Time();
+        time.setToNow();
+        SimpleDateFormat dbDateFormat = new SimpleDateFormat(Utility.DATE_FORMAT);
+        String dbFormattedDate = dbDateFormat.format(dateInMillis);
+        return dbFormattedDate;
+    }
     public static String getPreferredLocation(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(context.getString(R.string.pref_location_key),
@@ -140,7 +148,7 @@ public class Utility {
         return String.format(context.getString(R.string.format_temperature), temperature);
     }
 
-    static String formatDate(long dateInMillis) {
+    public static String formatDate(long dateInMillis) {
         Date date = new Date(dateInMillis);
         return DateFormat.getDateInstance().format(date);
     }
