@@ -106,28 +106,8 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
-        if (id == R.id.action_map){
-            openLocationOnMap();
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void openLocationOnMap(){
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-
-
-        String location = Utility.getPreferredLocation(this);
-        Uri uri = Uri.parse("geo:0,0?")
-                .buildUpon().appendQueryParameter("q", location).build();
-        intent.setData(uri);
-
-        if (intent.resolveActivity(getPackageManager())!=null){
-            startActivity(intent);
-        }
-        else Log.d(LOG_TAG, "Couldn't open location: " + location + "no map application installed");
-
     }
 
 }

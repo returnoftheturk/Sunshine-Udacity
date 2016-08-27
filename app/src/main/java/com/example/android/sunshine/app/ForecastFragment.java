@@ -29,6 +29,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,7 +46,7 @@ import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
  * Encapsulates fetching the forecast and displaying it as a {@link ListView} layout.
  */
 public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-
+    final String LOG_TAG = ForecastFragment.class.getSimpleName();
     private ForecastAdapter mForecastAdapter;
     Callback mCallback;
     private String ITEM_SELECTED_POSITION="ItemSelectedPosition";
@@ -132,6 +133,11 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             updateWeather();
             return true;
         }
+
+        if (id == R.id.action_map){
+            openLocationOnMap();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -213,4 +219,33 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             throw new ClassCastException(activity.toString() + " must implement Callback");
         }
     }
+
+    private void openLocationOnMap(){
+        Cursor c = getActivity().getContentResolver().query(WeatherContract.LocationEntry.CONTENT_URI,
+                new String[]{WeatherContract.LocationEntry.COLUMN_COORD_LAT, WeatherContract.LocationEntry.COLUMN_COORD_LONG},
+                WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ?",
+                new String[]{Utility.getPreferredLocation(getActivity())},
+                null);
+        if (c.moveToFirst()){
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            double lat = c.getDouble(0);
+            double lon = c.getDouble(1);
+            //String formattedLatLon = Double.toString(lat) + "," + Double.toString(lon);
+
+            Uri uri = Uri.parse("geo:" + Double.toString(lat) + "," + Double.toString(lon));
+
+            intent.setData(uri);
+
+            if (intent.resolveActivity(getActivity().getPackageManager())!=null){
+                startActivity(intent);
+            }
+            else Log.d(LOG_TAG, "Couldn't open location: " + Utility.getPreferredLocation(getActivity())
+                    + "no map application installed");
+
+        }
+
+
+
+    }
+
 }
