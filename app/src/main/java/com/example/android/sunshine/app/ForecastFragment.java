@@ -129,10 +129,10 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_refresh) {
-            updateWeather();
-            return true;
-        }
+//        if (id == R.id.action_refresh) {
+//            updateWeather();
+//            return true;
+//        }
 
         if (id == R.id.action_map){
             openLocationOnMap();
@@ -221,26 +221,27 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void openLocationOnMap(){
-        Cursor c = getActivity().getContentResolver().query(WeatherContract.LocationEntry.CONTENT_URI,
-                new String[]{WeatherContract.LocationEntry.COLUMN_COORD_LAT, WeatherContract.LocationEntry.COLUMN_COORD_LONG},
-                WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ?",
-                new String[]{Utility.getPreferredLocation(getActivity())},
-                null);
-        if (c.moveToFirst()){
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            double lat = c.getDouble(0);
-            double lon = c.getDouble(1);
-            //String formattedLatLon = Double.toString(lat) + "," + Double.toString(lon);
+        if (mForecastAdapter!=null){
+            Cursor c = mForecastAdapter.getCursor();
 
-            Uri uri = Uri.parse("geo:" + Double.toString(lat) + "," + Double.toString(lon));
+            if (c!=null){
+                c.moveToFirst();
 
-            intent.setData(uri);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                double lat = c.getDouble(COL_COORD_LAT);
+                double lon = c.getDouble(COL_COORD_LONG);
 
-            if (intent.resolveActivity(getActivity().getPackageManager())!=null){
-                startActivity(intent);
+                Uri uri = Uri.parse("geo:" + Double.toString(lat) + "," + Double.toString(lon));
+
+                intent.setData(uri);
+
+                if (intent.resolveActivity(getActivity().getPackageManager())!=null){
+                    startActivity(intent);
+                }
+                else Log.d(LOG_TAG, "Couldn't open location: " + Utility.getPreferredLocation(getActivity())
+                        + "no map application installed");
+
             }
-            else Log.d(LOG_TAG, "Couldn't open location: " + Utility.getPreferredLocation(getActivity())
-                    + "no map application installed");
 
         }
 
